@@ -6,12 +6,13 @@ using UnityEngine.AI;
 public class EnemyFollow : MonoBehaviour
 {
     private NavMeshAgent enemy;
-    private Transform player; 
+    public Transform player; 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("PlayerCapsule").transform;
+        // player = GameObject.FindGameObjectWithTag("PlayerCapsule").transform;
         enemy = GetComponent<NavMeshAgent>();
+
     }
 
     // Update is called once per frame
