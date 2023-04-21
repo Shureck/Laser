@@ -52,7 +52,7 @@ public class RaycastShoot : MonoBehaviour
 
                     if (Physics.Raycast(ray, out hit, maxDistance))
                     {
-                        if (hit.transform.CompareTag("Wood") || hit.transform.CompareTag("Kruk"))
+                        if (hit.transform.CompareTag("Lift") || hit.transform.CompareTag("Catch"))
                         {
                             GameObject parentObj = hit.transform.gameObject;
                             GameObject childObj = Instantiate(greenPrefab, hit.point, Quaternion.identity);
@@ -62,13 +62,7 @@ public class RaycastShoot : MonoBehaviour
                         }
                         else
                         {
-                            if (hit.transform.CompareTag("Zombie"))
-                            {
-                                continue;
-                            }
-                            GameObject circle = Instantiate(circlePrefab, hit.point, Quaternion.identity);
-                            circle.SetActive(true);
-                            Destroy(circle, 30f);
+                           
                         }
                     }
 

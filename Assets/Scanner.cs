@@ -22,6 +22,8 @@ public class Scanner : MonoBehaviour
     //private const string PARTICLE_AMOUNT_PARAMETER_NAME = "ParticleAmount";
     //private const string PARTICLES_PER_SCAN_PARAMETER_NAME = "ParticlesPerScan";
 
+    public GameObject greenPrefab;
+
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private VisualEffect _vfxPrefab;
@@ -59,6 +61,7 @@ public class Scanner : MonoBehaviour
     {
         // create array from list
         Vector3[] pos = _positionsList.ToArray();
+
 
         // cache position for offset
         Vector3 vfxPos = _currentVFX.transform.position;
@@ -101,10 +104,11 @@ public class Scanner : MonoBehaviour
 
         // add old VFX to list
         _vfxList.Add(_currentVFX);
-
-        // create new VFX
         _currentVFX = Instantiate(_vfxPrefab, transform.position, Quaternion.identity, _vfxContainer.transform);
         _currentVFX.SetUInt(RESOLUTION_PARAMETER_NAME, (uint)resolution);
+        // create new VFX
+        //_currentVFX = Instantiate(_vfxPrefab, transform.position, Quaternion.identity, _vfxContainer.transform);
+        //_currentVFX.SetUInt(RESOLUTION_PARAMETER_NAME, (uint)resolution);
         //_currentVFX.SetInt(PARTICLES_PER_SCAN_PARAMETER_NAME, _pointsPerScan);
 
         // create texture
@@ -128,8 +132,6 @@ public class Scanner : MonoBehaviour
         // only call if button is pressed
         if (Mouse.current.leftButton.isPressed)
         {
-
-            Debug.Log("Presed");
             for (int i = 0; i < _pointsPerScan; i++)
             {
                 // generate random point
@@ -144,9 +146,21 @@ public class Scanner : MonoBehaviour
                 {
                     Debug.DrawRay(transform.position, dir * hit.distance, Color.green);
                     // only add point if the particle count limit is not reached
+                    if (hit.transform.CompareTag("Lift") || hit.transform.CompareTag("Catch"))
+                    {
+                        GameObject parentObj = hit.transform.gameObject;
+                        GameObject childObj = Instantiate(greenPrefab, hit.point, Quaternion.identity);
+                        childObj.transform.parent = parentObj.transform;
+                        childObj.SetActive(true);
+                        Destroy(childObj, 30f);
+                    }
+
+
                     if (_positionsList.Count < resolution * resolution)
                     {
                         if (hit.collider.CompareTag("Zombie")) continue;
+                        if (hit.collider.CompareTag("Lift")) continue;
+                        if (hit.collider.CompareTag("Catch")) continue;
                         _positionsList.Add(hit.point);
                         _lineRenderer.enabled = true;
                         _lineRenderer.SetPositions(new[]
