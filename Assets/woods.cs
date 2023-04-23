@@ -21,10 +21,17 @@ public class woods : MonoBehaviour
         if (other.CompareTag("Kruk") && !isHolding)
         {
             Transform targetTransform = other.transform;
-            transform.position = new Vector3(3.255f, 1.5f, 10.026f);
+            transform.position = new Vector3(4.12f, 1.403f, 24.029f);
             Vector3 euler = new Vector3(0, 90, 90);
             Quaternion rotation = Quaternion.Euler(euler);
             transform.rotation = rotation;
+
+            Rigidbody rb = GetComponent<Rigidbody>();
+            rb.useGravity = false;
+        }
+        if (other.CompareTag("Zombie") && !isHolding)
+        {
+            Destroy(gameObject, 10f);
         }
     }
 

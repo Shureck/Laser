@@ -149,8 +149,9 @@ public class Scanner : MonoBehaviour
                 if (Physics.Raycast(transform.position, dir, out RaycastHit hit, _range, _layerMask))
                 {
                     Debug.DrawRay(transform.position, dir * hit.distance, Color.green);
-                    // only add point if the particle count limit is not reached
-                    if (hit.transform.CompareTag("Lift") || hit.transform.CompareTag("Catch"))
+                    // only add point if the particle count limit is not reache
+
+                    if (hit.transform.CompareTag("Lift") || hit.transform.CompareTag("Catch") || hit.transform.CompareTag("Kruk") || hit.transform.CompareTag("Wood"))
                     {
                         GameObject parentObj = hit.transform.gameObject;
                         GameObject childObj = Instantiate(greenPrefab, hit.point, Quaternion.identity);
@@ -172,6 +173,8 @@ public class Scanner : MonoBehaviour
                             if (hit.collider.CompareTag("Zombie")) continue;
                             if (hit.collider.CompareTag("Lift")) continue;
                             if (hit.collider.CompareTag("Catch")) continue;
+                            if (hit.collider.CompareTag("Kruk")) continue;
+                            if (hit.collider.CompareTag("Wood")) continue;
                             _positionsList.Add(hit.point);
                             _lineRenderer.enabled = true;
                             _lineRenderer.SetPositions(new[]

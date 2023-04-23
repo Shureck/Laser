@@ -35,7 +35,7 @@ public class EnemyFollow : MonoBehaviour
             enemy.speed = 0f;
             _catched = true;
             // Запускаем корутину для восстановления скорости агента через 30 секунд
-            StartCoroutine(ResumeAgentSpeed(1f));
+            StartCoroutine(ResumeAgentSpeed(15f));
         }
     }
 
@@ -45,7 +45,7 @@ public class EnemyFollow : MonoBehaviour
         // Восстанавливаем скорость агента после заданного времени
         enemy.speed = 1.5f;
         _catched = false;
-        Destroy(catc);
-        Destroy(gameObject);
+        //Destroy(catc);
+        //Destroy(gameObject);
     }
 }

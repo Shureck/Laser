@@ -11,7 +11,7 @@ public class ButtonHandler : MonoBehaviour
             if (buttonText != null)
             {
                 PlayerPrefs.SetString("Mode", buttonText.text);
-                SceneManager.LoadScene("Hospital");
+                SceneManager.LoadScene("Cave");
             }
         }
     }

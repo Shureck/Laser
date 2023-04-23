@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,31 +12,46 @@ public class WoodInteraction : MonoBehaviour
     private GameObject heldWood;
     private Rigidbody heldWoodRigidbody;
     public BoxCollider secondCollider;
+    private int flag = 0;
+
+    private IEnumerator TakeWood(Collider other)
+    {
+
+        isHoldingWood = true;
+        heldWood = other.gameObject;
+        heldWood.GetComponent<woods>().isHolding = true;
+        heldWood.transform.rotation *= Quaternion.Euler(0f, rotationAngle, rotationAngle);
+        heldWoodRigidbody = heldWood.GetComponent<Rigidbody>();
+        heldWoodRigidbody.useGravity = false;
+        heldWoodRigidbody.isKinematic = false;
+        heldWoodRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+
+        heldWood.transform.position = transform.position + transform.forward * 0.1f;
+        heldWood.transform.rotation = transform.rotation;
+        heldWoodRigidbody.velocity = transform.forward * moveSpeed;
+        yield return new WaitForSeconds(0.2f);
+        flag = 1;
+
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Wood"))
+        if (other.CompareTag("Wood") || other.CompareTag("Catch"))
         {
-            if (!isHoldingWood)
+            if (Keyboard.current.eKey.isPressed && !isHoldingWood)
             {
-                isHoldingWood = true;
-                heldWood = other.gameObject;
-                heldWood.GetComponent<woods>().isHolding = true;
-                heldWood.transform.rotation *= Quaternion.Euler(0f, rotationAngle, rotationAngle);
-                heldWoodRigidbody = heldWood.GetComponent<Rigidbody>();
-                heldWoodRigidbody.useGravity = false;
-                heldWoodRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+                StartCoroutine(TakeWood(other));
             }
-            else
+            else if (Keyboard.current.eKey.isPressed && isHoldingWood && heldWood == other.gameObject && flag == 1)
             {
                 isHoldingWood = false;
                 heldWoodRigidbody.useGravity = true;
                 heldWoodRigidbody.constraints = RigidbodyConstraints.None;
                 heldWood.GetComponent<woods>().isHolding = false;
                 heldWood = null;
+                flag = 0;
             }
         }
-            
     }
 
     private void Update()
@@ -43,16 +59,15 @@ public class WoodInteraction : MonoBehaviour
         if (Keyboard.current.eKey.isPressed)
         {
             secondCollider.enabled = true;
-            
         }
-        else
+        if (Keyboard.current.eKey.wasReleasedThisFrame)
         {
             secondCollider.enabled = false;
         }
 
         if (isHoldingWood && heldWood != null)
         {
-            heldWood.transform.position = transform.position + transform.forward;
+            heldWood.transform.position = transform.position + transform.forward*0.1f;
             heldWood.transform.rotation = transform.rotation;
             heldWoodRigidbody.velocity = transform.forward * moveSpeed;
         }
