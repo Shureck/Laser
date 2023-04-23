@@ -151,7 +151,7 @@ public class Scanner : MonoBehaviour
                     Debug.DrawRay(transform.position, dir * hit.distance, Color.green);
                     // only add point if the particle count limit is not reache
 
-                    if (hit.transform.CompareTag("Lift") || hit.transform.CompareTag("Catch") || hit.transform.CompareTag("Kruk") || hit.transform.CompareTag("Wood"))
+                    if (hit.transform.CompareTag("Lift") || hit.transform.CompareTag("Catch") || hit.transform.CompareTag("Kruk") || hit.transform.CompareTag("Wood") || hit.transform.CompareTag("Lever") || hit.transform.CompareTag("Mina"))
                     {
                         GameObject parentObj = hit.transform.gameObject;
                         GameObject childObj = Instantiate(greenPrefab, hit.point, Quaternion.identity);
@@ -175,6 +175,8 @@ public class Scanner : MonoBehaviour
                             if (hit.collider.CompareTag("Catch")) continue;
                             if (hit.collider.CompareTag("Kruk")) continue;
                             if (hit.collider.CompareTag("Wood")) continue;
+                            if (hit.transform.CompareTag("Lever")) continue;
+                            if (hit.transform.CompareTag("Mina")) continue;
                             _positionsList.Add(hit.point);
                             _lineRenderer.enabled = true;
                             _lineRenderer.SetPositions(new[]

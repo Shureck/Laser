@@ -110,7 +110,7 @@ public class MoveableObject : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void OnTriggerStay(Collider other)
     {
         if (_playerTransform != null && Keyboard.current.eKey.isPressed)
         {
@@ -121,7 +121,7 @@ public class MoveableObject : MonoBehaviour
 
             // Set the object's rotation to look at the player
             Quaternion targetRotation = Quaternion.LookRotation(direction);
-            Quaternion yRotation = Quaternion.Euler(0f, targetRotation.eulerAngles.y+90, 0f);
+            Quaternion yRotation = Quaternion.Euler(0f, targetRotation.eulerAngles.y + 90, 0f);
             transform.rotation = Quaternion.Slerp(transform.rotation, yRotation, _rotationSpeed * Time.deltaTime);
 
             _isMoving = true;
@@ -130,6 +130,11 @@ public class MoveableObject : MonoBehaviour
         {
             _isMoving = false;
         }
+    }
+
+    private void Update()
+    {
+        
     }
 }
 

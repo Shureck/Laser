@@ -21,7 +21,7 @@ public class woods : MonoBehaviour
         if (other.CompareTag("Kruk") && !isHolding)
         {
             Transform targetTransform = other.transform;
-            transform.position = new Vector3(4.12f, 1.403f, 24.029f);
+            transform.position = other.gameObject.GetComponent<positions_desk>().pos;
             Vector3 euler = new Vector3(0, 90, 90);
             Quaternion rotation = Quaternion.Euler(euler);
             transform.rotation = rotation;

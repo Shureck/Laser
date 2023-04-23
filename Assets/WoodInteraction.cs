@@ -19,7 +19,7 @@ public class WoodInteraction : MonoBehaviour
 
         isHoldingWood = true;
         heldWood = other.gameObject;
-        if (other.CompareTag("Catch"))
+        if (other.CompareTag("Mina"))
         {
             heldWood.GetComponent<Mina>().isHolding = true;
         }
@@ -43,17 +43,17 @@ public class WoodInteraction : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Wood") || other.CompareTag("Catch"))
+        if (other.CompareTag("Wood") || other.CompareTag("Mina"))
         {
             if (Keyboard.current.eKey.isPressed && !isHoldingWood)
             {
                 StartCoroutine(TakeWood(other));
             }
-            else if (Keyboard.current.eKey.isPressed && isHoldingWood && heldWood == other.gameObject && flag == 1)
+            else if (Keyboard.current.eKey.isPressed && isHoldingWood && heldWood == other.gameObject && flag==1)
             {
                 heldWoodRigidbody.useGravity = true;
                 heldWoodRigidbody.constraints = RigidbodyConstraints.None;
-                if (other.CompareTag("Catch"))
+                if (other.CompareTag("Mina"))
                 {
                     heldWood.GetComponent<Mina>().isHolding = false;
                 }
@@ -61,6 +61,7 @@ public class WoodInteraction : MonoBehaviour
                 {
                     heldWood.GetComponent<woods>().isHolding = false;
                 }
+                isHoldingWood = false;
                 heldWood = null;
                 flag = 0;
             }
