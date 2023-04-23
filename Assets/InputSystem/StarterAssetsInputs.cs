@@ -13,6 +13,7 @@ namespace StarterAssets
 		public bool jump;
 		public bool sprint;
 		public FixedJoystick Joystick;
+		public GameObject check_platfom;
 		[Header("Movement Settings")]
 		public bool analogMovement;
 
@@ -68,7 +69,14 @@ namespace StarterAssets
 		
 		private void OnApplicationFocus(bool hasFocus)
 		{
-			SetCursorState(cursorLocked);
+			if (check_platfom.GetComponent<CheckPlatform>().isMobile)
+			{
+				//SetCursorState(cursorLocked);
+			}
+            else
+            {
+				SetCursorState(cursorLocked);
+			}
 		}
 
 		private void SetCursorState(bool newState)

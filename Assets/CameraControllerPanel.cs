@@ -45,8 +45,8 @@ public class CameraControllerPanel : MonoBehaviour, IPointerDownHandler, IPointe
             lastPosition = currentPosition;
 
 
-            delta_x = -delta.x/50;
-            delta_y = delta.y/50;
+            delta_x = delta.x/10;
+            delta_y = -delta.y/10;
         }
     }
 }

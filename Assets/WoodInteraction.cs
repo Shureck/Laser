@@ -7,6 +7,8 @@ public class WoodInteraction : MonoBehaviour
     public float maxDistance = 50f;
     public float rotationAngle = 90f;
     public float moveSpeed = 5f;
+    public GameObject button;
+    public GameObject check_platfom;
 
     private bool isHoldingWood = false;
     private GameObject heldWood;
@@ -45,11 +47,11 @@ public class WoodInteraction : MonoBehaviour
     {
         if (other.CompareTag("Wood") || other.CompareTag("Mina"))
         {
-            if (Keyboard.current.eKey.isPressed && !isHoldingWood)
+            if ((Keyboard.current.eKey.isPressed || button.GetComponent<ImageClick>().keyAction) && !isHoldingWood)
             {
                 StartCoroutine(TakeWood(other));
             }
-            else if (Keyboard.current.eKey.isPressed && isHoldingWood && heldWood == other.gameObject && flag==1)
+            else if ((Keyboard.current.eKey.isPressed || button.GetComponent<ImageClick>().keyAction) && isHoldingWood && heldWood == other.gameObject && flag==1)
             {
                 heldWoodRigidbody.useGravity = true;
                 heldWoodRigidbody.constraints = RigidbodyConstraints.None;
@@ -70,13 +72,27 @@ public class WoodInteraction : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current.eKey.isPressed)
+        if(check_platfom.GetComponent<CheckPlatform>().isMobile)
         {
-            secondCollider.enabled = true;
+            if (button.GetComponent<ImageClick>().keyAction)
+            {
+                secondCollider.enabled = true;
+            }
+            if (!button.GetComponent<ImageClick>().keyAction)
+            {
+                secondCollider.enabled = false;
+            }
         }
-        if (Keyboard.current.eKey.wasReleasedThisFrame)
+        else
         {
-            secondCollider.enabled = false;
+            if (Keyboard.current.eKey.isPressed)
+            {
+                secondCollider.enabled = true;
+            }
+            if (Keyboard.current.eKey.wasReleasedThisFrame)
+            {
+                secondCollider.enabled = false;
+            }
         }
 
         if (isHoldingWood && heldWood != null)

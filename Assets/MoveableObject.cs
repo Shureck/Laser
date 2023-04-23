@@ -86,7 +86,7 @@ public class MoveableObject : MonoBehaviour
     private Rigidbody _rigidbody;
     private Transform _playerTransform;
     private bool _isMoving;
-
+    public GameObject button;
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -112,7 +112,7 @@ public class MoveableObject : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (_playerTransform != null && Keyboard.current.eKey.isPressed)
+        if (_playerTransform != null && (Keyboard.current.eKey.isPressed || button.GetComponent<ImageClick>().keyAction))
         {
             // Set the object's position to be at the player's distance plus the offset
             Vector3 direction = (_playerTransform.position - transform.position).normalized;
