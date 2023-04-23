@@ -27,6 +27,7 @@ public class WoodInteraction : MonoBehaviour
         heldWoodRigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
         heldWood.transform.position = transform.position + transform.forward * 0.1f;
+
         heldWood.transform.rotation = transform.rotation;
         heldWoodRigidbody.velocity = transform.forward * moveSpeed;
         yield return new WaitForSeconds(0.2f);
