@@ -19,7 +19,13 @@ public class WoodInteraction : MonoBehaviour
 
         isHoldingWood = true;
         heldWood = other.gameObject;
-        heldWood.GetComponent<woods>().isHolding = true;
+        if (other.CompareTag("Catch"))
+        {
+            heldWood.GetComponent<Mina>().isHolding = true;
+        }
+        if(other.CompareTag("Wood")){
+            heldWood.GetComponent<woods>().isHolding = true;
+        }
         heldWood.transform.rotation *= Quaternion.Euler(0f, rotationAngle, rotationAngle);
         heldWoodRigidbody = heldWood.GetComponent<Rigidbody>();
         heldWoodRigidbody.useGravity = false;
@@ -45,10 +51,16 @@ public class WoodInteraction : MonoBehaviour
             }
             else if (Keyboard.current.eKey.isPressed && isHoldingWood && heldWood == other.gameObject && flag == 1)
             {
-                isHoldingWood = false;
                 heldWoodRigidbody.useGravity = true;
                 heldWoodRigidbody.constraints = RigidbodyConstraints.None;
-                heldWood.GetComponent<woods>().isHolding = false;
+                if (other.CompareTag("Catch"))
+                {
+                    heldWood.GetComponent<Mina>().isHolding = false;
+                }
+                if(other.CompareTag("Wood"))
+                {
+                    heldWood.GetComponent<woods>().isHolding = false;
+                }
                 heldWood = null;
                 flag = 0;
             }

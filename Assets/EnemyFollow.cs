@@ -9,6 +9,7 @@ public class EnemyFollow : MonoBehaviour
     public Transform player;
     private GameObject catc;
     private bool _catched;
+    public float delay = 15f;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +36,7 @@ public class EnemyFollow : MonoBehaviour
             enemy.speed = 0f;
             _catched = true;
             // Запускаем корутину для восстановления скорости агента через 30 секунд
-            StartCoroutine(ResumeAgentSpeed(15f));
+            StartCoroutine(ResumeAgentSpeed(delay));
         }
     }
 

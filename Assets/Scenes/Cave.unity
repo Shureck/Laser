@@ -6937,6 +6937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1720744837}
+  delay: 15
 --- !u!195 &1349718435
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -9931,7 +9932,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1984050996}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b523eaab6f2f3434d857ef3dcf65eaa0, type: 3}
+  m_Script: {fileID: 11500000, guid: 961b0ad16c67ff746a19b0a5164ee1a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isHolding: 0

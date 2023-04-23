@@ -12,22 +12,6 @@ public class Mina : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Huy");
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        // ≈сли столкновение произошло с землей
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-        }
-
-        Debug.Log("Ground");
-    }
-
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Kruk") && !isHolding)
@@ -41,7 +25,10 @@ public class Mina : MonoBehaviour
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.useGravity = false;
         }
-
+        if (other.CompareTag("Zombie") && !isHolding)
+        {
+            Destroy(gameObject, 15f);
+        }
 
     }
         // Update is called once per frame
