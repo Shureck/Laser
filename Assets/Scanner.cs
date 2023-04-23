@@ -13,6 +13,7 @@ public class Scanner : MonoBehaviour
     private Texture2D _texture;
     private Color[] _positions;
     private bool _createNewVFX;
+    public CameraControllerPanel cam;
     //private int _particleAmount;
     private LineRenderer _lineRenderer;
 
@@ -23,6 +24,9 @@ public class Scanner : MonoBehaviour
     //private const string PARTICLES_PER_SCAN_PARAMETER_NAME = "ParticlesPerScan";
 
     public GameObject greenPrefab;
+    public GameObject RedPrefab;
+
+    public bool isWeb = false;
 
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private PlayerInput playerInput;
@@ -130,7 +134,7 @@ public class Scanner : MonoBehaviour
     private void Scan()
     {
         // only call if button is pressed
-        if (Mouse.current.leftButton.isPressed)
+        if (Mouse.current.leftButton.isPressed || cam.pressed)
         {
             for (int i = 0; i < _pointsPerScan; i++)
             {
@@ -154,29 +158,37 @@ public class Scanner : MonoBehaviour
                         childObj.SetActive(true);
                         Destroy(childObj, 30f);
                     }
-
-
-                    if (_positionsList.Count < resolution * resolution)
+                    else if (isWeb) {
+                        GameObject parentObj = hit.transform.gameObject;
+                        GameObject childObj = Instantiate(RedPrefab, hit.point, Quaternion.identity);
+                        childObj.transform.parent = parentObj.transform;
+                        childObj.SetActive(true);
+                        Destroy(childObj, 30f);
+                    }
+                    if (!isWeb)
                     {
-                        if (hit.collider.CompareTag("Zombie")) continue;
-                        if (hit.collider.CompareTag("Lift")) continue;
-                        if (hit.collider.CompareTag("Catch")) continue;
-                        _positionsList.Add(hit.point);
-                        _lineRenderer.enabled = true;
-                        _lineRenderer.SetPositions(new[]
+                        if (_positionsList.Count < resolution * resolution)
                         {
+                            if (hit.collider.CompareTag("Zombie")) continue;
+                            if (hit.collider.CompareTag("Lift")) continue;
+                            if (hit.collider.CompareTag("Catch")) continue;
+                            _positionsList.Add(hit.point);
+                            _lineRenderer.enabled = true;
+                            _lineRenderer.SetPositions(new[]
+                            {
                             transform.position,
                             hit.point
                         });
-                        //_particleAmount++;
-                        //_currentVFX.SetInt(PARTICLE_AMOUNT_PARAMETER_NAME, _particleAmount);
-                    }
-                    // create new VFX if the particle count limit is reached
-                    else
-                    {
-                        _createNewVFX = true;
-                        CreateNewVisualEffect();
-                        break;
+                            //_particleAmount++;
+                            //_currentVFX.SetInt(PARTICLE_AMOUNT_PARAMETER_NAME, _particleAmount);
+                        }
+                        // create new VFX if the particle count limit is reached
+                        else
+                        {
+                            _createNewVFX = true;
+                            CreateNewVisualEffect();
+                            break;
+                        }
                     }
                 } // raycast
                 else
