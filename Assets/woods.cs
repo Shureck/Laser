@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class woods : MonoBehaviour
 {
+    public AudioSource audioSource;
+    public float repeatRate = 1f;
+
     public bool isHolding;
+    private int flag = 0; 
     // Start is called before the first frame update
     void Start()
-    {
-        
+    { 
+        InvokeRepeating("PlayAudio", repeatRate, repeatRate);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -31,10 +35,21 @@ public class woods : MonoBehaviour
         }
         if (other.CompareTag("Zombie") && !isHolding)
         {
+            if (flag == 0)
+            {
+                audioSource.Play();
+                flag = 1;
+            }
             Destroy(gameObject, 10f);
         }
     }
 
+    private void PlayAudio()
+    {
+        // Воспроизводим аудио
+        if(flag == 1)
+        audioSource.Play();
+    }
 
     // Update is called once per frame
     void Update()

@@ -25,6 +25,7 @@ public class Scanner : MonoBehaviour
 
     public GameObject greenPrefab;
     public GameObject RedPrefab;
+    public GameObject YelowPrefab;
 
     public bool isWeb = false;
 
@@ -151,7 +152,15 @@ public class Scanner : MonoBehaviour
                     Debug.DrawRay(transform.position, dir * hit.distance, Color.green);
                     // only add point if the particle count limit is not reache
 
-                    if (hit.transform.CompareTag("Lift") || hit.transform.CompareTag("Catch") || hit.transform.CompareTag("Kruk") || hit.transform.CompareTag("Wood") || hit.transform.CompareTag("Lever") || hit.transform.CompareTag("Mina"))
+                    if (hit.transform.CompareTag("Lift")){
+                        GameObject parentObj = hit.transform.gameObject;
+                        GameObject childObj = Instantiate(YelowPrefab, hit.point, Quaternion.identity);
+                        childObj.transform.parent = parentObj.transform;
+                        childObj.SetActive(true);
+                        Destroy(childObj, 30f);
+                    }
+
+                    if (hit.transform.CompareTag("Catch") || hit.transform.CompareTag("Kruk") || hit.transform.CompareTag("Wood") || hit.transform.CompareTag("Lever") || hit.transform.CompareTag("Mina"))
                     {
                         GameObject parentObj = hit.transform.gameObject;
                         GameObject childObj = Instantiate(greenPrefab, hit.point, Quaternion.identity);
@@ -166,10 +175,19 @@ public class Scanner : MonoBehaviour
                         childObj.SetActive(true);
                         Destroy(childObj, 30f);
                     }
+
+                    _lineRenderer.enabled = true;
+                    _lineRenderer.SetPositions(new[]
+                    {
+                        transform.position,
+                        hit.point
+                        });
+
                     if (!isWeb)
                     {
                         if (_positionsList.Count < resolution * resolution)
                         {
+                           
                             if (hit.collider.CompareTag("Zombie")) continue;
                             if (hit.collider.CompareTag("Lift")) continue;
                             if (hit.collider.CompareTag("Catch")) continue;
@@ -178,12 +196,7 @@ public class Scanner : MonoBehaviour
                             if (hit.transform.CompareTag("Lever")) continue;
                             if (hit.transform.CompareTag("Mina")) continue;
                             _positionsList.Add(hit.point);
-                            _lineRenderer.enabled = true;
-                            _lineRenderer.SetPositions(new[]
-                            {
-                            transform.position,
-                            hit.point
-                        });
+                            
                             //_particleAmount++;
                             //_currentVFX.SetInt(PARTICLE_AMOUNT_PARAMETER_NAME, _particleAmount);
                         }

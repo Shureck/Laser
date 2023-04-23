@@ -8,10 +8,18 @@ public class ButtonHandler : MonoBehaviour
         if (button != null)
         {
             TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
+
             if (buttonText != null)
             {
                 PlayerPrefs.SetString("Mode", buttonText.text);
-                SceneManager.LoadScene("Cave");
+                if (buttonText.text.Equals("Mobile"))
+                {
+                    SceneManager.LoadScene("Hospital");
+                }
+                else
+                {
+                    SceneManager.LoadScene("Cave");
+                }
             }
         }
     }

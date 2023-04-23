@@ -69,14 +69,7 @@ namespace StarterAssets
 		
 		private void OnApplicationFocus(bool hasFocus)
 		{
-			if (check_platfom.GetComponent<CheckPlatform>().isMobile)
-			{
-				//SetCursorState(cursorLocked);
-			}
-            else
-            {
-				SetCursorState(cursorLocked);
-			}
+			SetCursorState(cursorLocked);
 		}
 
 		private void SetCursorState(bool newState)
